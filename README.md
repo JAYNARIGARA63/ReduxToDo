@@ -125,10 +125,3 @@ export default todoSlice.reducer;
 
 ---
 
-### **📩 Contact**
-For any questions, reach out to me at **jaynarigara4@gamil.com** or connect on **[LinkedIn]([https://www.linkedin.com/in/your-profile](https://www.linkedin.com/in/jay-narigara-502720345/))**.
-
----
-
-### 🎉 Happy Coding! 🚀
-
