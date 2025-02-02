@@ -1,97 +1,134 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 📌 React Native To-Do List with Redux Toolkit
 
-# Getting Started
+This is a simple **To-Do List app** built with **React Native** and **Redux Toolkit**. The app allows users to **add, edit, mark as completed, and delete tasks**. It helps in learning how to manage global state using Redux in a React Native application.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+---
 
-## Step 1: Start Metro
+## 🚀 Features
+- ✅ **Add Tasks** - Create new to-do items.
+- ✏️ **Edit Tasks** - Modify existing tasks.
+- 🗑️ **Delete Tasks** - Remove completed or unwanted tasks.
+- ✅ **Mark as Completed** - Toggle tasks between completed and pending.
+- 💾 **State Management** - Uses Redux Toolkit for efficient state management.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+---
 
-To start the Metro dev server, run the following command from the root of your React Native project:
-
-```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
+## 📂 Project Structure
+```
+📦 react-native-todo-app
+ ┣ 📂 src
+ ┃ ┣ 📂 components
+ ┃ ┃ ┗ 📜 TodoItem.tsx
+ ┃ ┣ 📂 redux
+ ┃ ┃ ┣ 📜 store.ts
+ ┃ ┃ ┗ 📜 todoSlice.ts
+ ┃ ┣ 📜 App.tsx
+ ┃ ┣ 📜 TodoScreen.tsx
+ ┣ 📜 package.json
+ ┣ 📜 README.md
+ ┗ 📜 tsconfig.json
 ```
 
-## Step 2: Build and run your app
+---
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+## 🔧 Installation & Setup
 
-### Android
-
+### **1️⃣ Clone the Repository**
 ```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+git clone https://github.com/your-username/react-native-todo-app.git
+cd react-native-todo-app
 ```
 
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
+### **2️⃣ Install Dependencies**
 ```sh
-bundle install
+yarn install  # or npm install
 ```
 
-Then, and every time you update your native dependencies, run:
-
+### **3️⃣ Run the App**
 ```sh
-bundle exec pod install
+npx react-native run-android  # For Android
+npx react-native run-ios      # For iOS (Mac only)
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+---
 
-```sh
-# Using npm
-npm run ios
+## 🛠️ Tech Stack
+- **React Native** - UI Development
+- **Redux Toolkit** - State Management
+- **TypeScript** - Strongly typed JavaScript
 
-# OR using Yarn
-yarn ios
+---
+
+## 🎯 Usage Guide
+
+### **📜 Add a Task**
+1. Enter text in the input field.
+2. Click the "Add Task" button.
+3. Task appears in the list.
+
+### **✏️ Edit a Task**
+1. Click the **edit button (✏️)** next to the task.
+2. The task text appears in the input field.
+3. Modify the text and click "Edit Task" to save changes.
+
+### **✅ Mark as Completed**
+1. Click on a task to toggle between completed and pending.
+2. Completed tasks have a **strikethrough** effect.
+
+### **🗑️ Delete a Task**
+1. Click the **delete button (❌)** to remove a task.
+
+---
+
+## 📄 Code Breakdown
+
+### **Redux Slice (`todoSlice.ts`)**
+```typescript
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface Todo {
+  id: number;
+  text: string;
+  completed: boolean;
+}
+
+const initialState: Todo[] = [];
+
+const todoSlice = createSlice({
+  name: "todos",
+  initialState,
+  reducers: {
+    addTodo: (state, action: PayloadAction<string>) => {
+      state.push({ id: Date.now(), text: action.payload, completed: false });
+    },
+    editTodo: (state, action: PayloadAction<{ id: number; newText: string }>) => {
+      const todo = state.find((t) => t.id === action.payload.id);
+      if (todo) {
+        todo.text = action.payload.newText;
+      }
+    },
+    toggleTodo: (state, action: PayloadAction<number>) => {
+      const todo = state.find((t) => t.id === action.payload);
+      if (todo) {
+        todo.completed = !todo.completed;
+      }
+    },
+    deleteTodo: (state, action: PayloadAction<number>) => {
+      return state.filter((t) => t.id !== action.payload);
+    },
+  },
+});
+
+export const { addTodo, editTodo, toggleTodo, deleteTodo } = todoSlice.actions;
+export default todoSlice.reducer;
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+---
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+### **📩 Contact**
+For any questions, reach out to me at **jaynarigara4@gamil.com** or connect on **[LinkedIn]([https://www.linkedin.com/in/your-profile](https://www.linkedin.com/in/jay-narigara-502720345/))**.
 
-## Step 3: Modify your app
+---
 
-Now that you have successfully run the app, let's make changes!
+### 🎉 Happy Coding! 🚀
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
